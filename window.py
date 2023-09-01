@@ -2,17 +2,19 @@ import pygame
 
 
 class Window(object):
-    def __init__(self, bg_image_path, caption) -> None:
+    def __init__(self, BG_IMAGE_PATH, CAPTION) -> None:
         pygame.init()
         self.WIDTH = 1200
         self.HEIGHT = 800
-        self.GRID_CELL_SIZE = 60
         self.WHITE = (255, 255, 255)
-        self.GRID_COLOR = (100, 100, 100)
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.clock = pygame.time.Clock()
-        self.background_image = pygame.image.load(bg_image_path)
-        pygame.display.set_caption(caption)
+        self.BG_IMAGE = self.load_and_resize_image(BG_IMAGE_PATH)
+        pygame.display.set_caption(CAPTION)
+
+    def load_and_resize_image(self, image_path):
+        image = pygame.image.load(image_path)
+        return pygame.transform.scale(image, (self.WIDTH, self.HEIGHT))
 
     def draw_screen_segments(self) -> None:
         pass
@@ -24,7 +26,7 @@ class Window(object):
                 if event.type == pygame.QUIT:
                     running = False
 
-            self.screen.blit(self.background_image, (0, 0))
+            self.screen.blit(self.BG_IMAGE, (0, 0))
 
             self.draw_screen_segments()
 

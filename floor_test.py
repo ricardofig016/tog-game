@@ -3,11 +3,13 @@ from window import Window
 
 
 class FloorTest(Window):
-    def __init__(self, name, grid_size, team_size, bg_image_path) -> None:
-        self.name = name
-        self.grid_size = grid_size
-        self.team_size = team_size
-        super().__init__(caption=self.name, bg_image_path=bg_image_path)
+    def __init__(self, NAME, GRID_SIZE, TEAM_SIZE, BG_IMAGE_PATH) -> None:
+        self.NAME = NAME
+        self.GRID_SIZE = GRID_SIZE
+        self.GRID_CELL_SIZE = 60
+        self.GRID_COLOR = (100, 100, 100)
+        self.TEAM_SIZE = TEAM_SIZE
+        super().__init__(CAPTION=self.NAME, BG_IMAGE_PATH=BG_IMAGE_PATH)
 
     def get_info(self) -> str:
         info = self.name
