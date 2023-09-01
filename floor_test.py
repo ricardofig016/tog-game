@@ -13,9 +13,10 @@ class FloorTest(Window):
         super().__init__(CAPTION=CAPTION, BG_IMAGE_PATH=BG_IMAGE_PATH)
         self.calc_grid_cell_size()
 
-    def calc_grid_cell_size(self):
+    def calc_grid_cell_size(self) -> None:
         space = 3 / 5 * self.WIDTH
         self.GRID_CELL_SIZE = int(space / (self.GRID_SIZE + 2))
+        return
 
     def get_info(self) -> str:
         info = self.name
