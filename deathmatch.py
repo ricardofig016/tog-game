@@ -7,7 +7,7 @@ class Deathmatch(FloorTest):
         super().__init__(
             NAME="Deathmatch Test",
             FLOOR="2F/Evankhell's hell",
-            GRID_SIZE=43,
+            GRID_SIZE=12,
             TEAM_SIZE=1,
             BG_IMAGE_PATH=self.get_random_bg_image(),
         )

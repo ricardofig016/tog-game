@@ -11,7 +11,7 @@ class Window(object):
         self.BG_IMAGE = self.load_and_resize_image(BG_IMAGE_PATH)
         pygame.display.set_caption(CAPTION)
 
-    def load_and_resize_image(self, image_path):
+    def load_and_resize_image(self, image_path) -> pygame.Surface:
         image = pygame.image.load(image_path)
         return pygame.transform.scale(image, (self.WIDTH, self.HEIGHT))
 
