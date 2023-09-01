@@ -6,7 +6,6 @@ class Window(object):
         pygame.init()
         self.WIDTH = 1200
         self.HEIGHT = 800
-        self.WHITE = (255, 255, 255)
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.clock = pygame.time.Clock()
         self.BG_IMAGE = self.load_and_resize_image(BG_IMAGE_PATH)
