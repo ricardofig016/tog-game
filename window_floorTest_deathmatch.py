@@ -6,11 +6,12 @@ from window_floorTest import FloorTest
 class Deathmatch(FloorTest):
     def __init__(self) -> None:
         super().__init__(
-            NAME="Deathmatch Test",
-            FLOOR="2F/Evankhell's hell",
-            GRID_SIZE=12,
-            TEAM_SIZE=1,
-            BG_IMAGE_PATH=self.get_random_bg_image(),
+            name="Deathmatch Test",
+            floor="2F/Evankhell's hell",
+            grid_size=12,
+            team_a_size=1,
+            team_b_size=1,
+            bg_image_path=self.get_random_bg_image(),
         )
 
     def get_random_bg_image(self):
