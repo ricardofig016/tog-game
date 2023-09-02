@@ -1,7 +1,7 @@
 import os
 import csv
 from window_floorTest_deathmatch import Deathmatch
-from character_waveControler import WaveControler
+from character import Character
 
 
 def print_all_characters():
@@ -24,7 +24,7 @@ def print_all_characters():
 dm = Deathmatch()
 dm.run()
 
-bam = WaveControler(1)
-print(bam.get_info())
+urek = Character(1)
+print(urek.get_info())
 
 print_all_characters()
