@@ -7,7 +7,7 @@ class Window(object):
         self.WIDTH = 1500
         self.HEIGHT = 1000
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-        self.TEXT_COLOR = (50, 50, 50)
+        self.TEXT_COLOR = (220, 220, 220)
         self.clock = pygame.time.Clock()
         self.bg_image = self.load_and_resize_image(
             bg_image_path, self.WIDTH, self.HEIGHT
