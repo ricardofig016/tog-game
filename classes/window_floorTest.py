@@ -1,6 +1,6 @@
 import pygame
-from window import Window
-from character import Character
+from classes.window import Window
+from classes.character import Character
 
 
 class FloorTest(Window):

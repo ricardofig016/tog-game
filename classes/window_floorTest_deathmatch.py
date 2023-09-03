@@ -1,6 +1,6 @@
 import random
 import os
-from window_floorTest import FloorTest
+from classes.window_floorTest import FloorTest
 
 
 class Deathmatch(FloorTest):

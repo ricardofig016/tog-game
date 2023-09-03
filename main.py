@@ -1,7 +1,7 @@
 import os
 import csv
-from window_floorTest_deathmatch import Deathmatch
-from character import Character
+from classes.window_floorTest_deathmatch import Deathmatch
+from classes.character import Character
 
 
 def print_all_characters():
