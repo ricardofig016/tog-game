@@ -35,3 +35,6 @@ class Character(object):
         for filename in os.listdir(dir_path):
             if filename.startswith(prefix):
                 return os.path.join(dir_path, filename)
+
+    def __str__(self) -> str:
+        return self.name

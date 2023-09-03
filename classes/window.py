@@ -38,9 +38,9 @@ class Window(object):
             align_mult = (0, -0.5)
         elif align == "right":
             align_mult = (-1, -0.5)
-        elif align == "up":
+        elif align == "top":
             align_mult = (-0.5, 0)
-        elif align == "down":
+        elif align == "bottom":
             align_mult = (-0.5, -1)
         elif align == "center":
             align_mult = (-0.5, -0.5)
@@ -55,9 +55,6 @@ class Window(object):
             ),
         )
         return
-
-    def draw_screen_segments(self) -> None:
-        pass
 
     def run(self) -> None:
         running = True
