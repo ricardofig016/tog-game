@@ -15,11 +15,9 @@ class Character(object):
                     (
                         self.id,
                         self.name,
-                        self.sobriquet,
+                        self.arc,
                         self.position,
-                        self.rank,
-                        self.volume,
-                        self.chapter,
+                        self.floor,
                     ) = row
                     break
         return
