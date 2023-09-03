@@ -1,2 +1,4 @@
-id,name,sobriquet,position,rank,volume,chapter
-1,Urek Mazino,Ray Barracuda,Fisherman,4,2,29
+id,name,arc,position,floor
+1,Urek Mazino,The Flower of Zigena,Fisherman,21
+2,Jue Viole Grace,Last Chance,Wave Controler,20
+3,Twenty-Fifth Baam,Headon's Floor,None,1
