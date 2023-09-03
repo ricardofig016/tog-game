@@ -1,6 +1,7 @@
 import pygame
 from classes.window import Window
 from classes.character import Character
+from classes.cell import Cell
 
 
 class FloorTest(Window):
@@ -9,21 +10,32 @@ class FloorTest(Window):
         name: str,
         floor: str,
         grid_size: int,
-        team_a_size,
-        team_b_size,
-        bg_image_path,
+        team_a_size: int,
+        team_b_size: int,
+        bg_image_path: str,
+        prompt: str = None,
     ) -> None:
         self.name = name
         self.floor = floor
         self.grid_size = grid_size
+        self.create_grid()
         self.GRID_COLOR = (50, 50, 50)
         self.team_a_size = team_a_size
         self.team_b_size = team_b_size
+        self.prompt = prompt
         caption = f"{self.floor} - {self.name}"
         super().__init__(caption=caption, bg_image_path=bg_image_path)
         self.calc_grid_cell_size()
         self.team_a = []
         self.team_b = []
+
+    def create_grid(self) -> None:
+        self.grid = []
+        for i in range(self.grid_size):
+            self.grid.append([])
+            for j in range(self.grid_size):
+                c = Cell()
+                self.grid[i].append(c)
 
     def calc_grid_cell_size(self) -> None:
         space = 3 / 5 * self.WIDTH
@@ -40,6 +52,13 @@ class FloorTest(Window):
         start_y = int((self.HEIGHT - 3 / 5 * self.WIDTH) / 2) + self.grid_cell_size
         end_y = start_y + self.grid_cell_size * self.grid_size
 
+        self.starting_cell_coords = (
+            int(start_x),
+            int(start_y),
+        )
+
+        self.blit_grid_elements()
+
         # vertical lines
         for x in range(start_x, end_x + 1, self.grid_cell_size):
             pygame.draw.line(self.screen, self.GRID_COLOR, (x, start_y), (x, end_y), 4)
@@ -48,24 +67,45 @@ class FloorTest(Window):
         for y in range(start_y, end_y + 1, self.grid_cell_size):
             pygame.draw.line(self.screen, self.GRID_COLOR, (start_x, y), (end_x, y), 4)
 
-        self.starting_square_coords = (
-            int(start_x + self.grid_cell_size / 2),
-            int(start_y + self.grid_cell_size / 2),
-        )
         return
 
-    def insert_character(self, id: int, team: str) -> None:
+    def blit_grid_elements(self):
+        for i in range(self.grid_size):
+            row = self.grid[i]
+            for j in range(self.grid_size):
+                element_path = row[j].img
+                img_size = self.grid_cell_size
+                img = self.load_and_resize_image(element_path, img_size, img_size)
+                coords = (
+                    self.starting_cell_coords[0] + j * self.grid_cell_size,
+                    self.starting_cell_coords[1] + i * self.grid_cell_size,
+                )
+                self.screen.blit(img, coords)
+
+    def insert_character(self, id: int, team: str, x: int, y: int) -> None:
         new_character = Character(id)
         if team.lower() == "a":
-            if len(self.team_a) < self.team_a_size:
+            if len(self.team_a) < self.team_a_size and self.grid[x][y].insert_character(
+                new_character
+            ):
                 self.team_a.append(new_character)
+                self.grid[x][y]
             return
-        if len(self.team_b) < self.team_b_size:
-            self.team_b.append(new_character)
-        return
+
+        if team.lower() == "b":
+            if len(self.team_b) < self.team_b_size and self.grid[x][y].insert_character(
+                new_character
+            ):
+                self.team_b.append(new_character)
+            return
+
+        # neutral character
+        self.grid[x][y].insert_character(new_character)
 
     def blit_teams(self) -> None:
         self.blit_team_bg()
+        if self.prompt:
+            self.blit_prompt()
         # Team A
         text_surface = self.render_text(
             "Team A", int(self.WIDTH * 0.032), self.TEXT_COLOR
@@ -96,6 +136,20 @@ class FloorTest(Window):
         x = self.WIDTH - width
         height = (self.team_b_size + 1) / 8 * self.HEIGHT
         pygame.draw.rect(self.screen, self.GRID_COLOR, (x, y, width, height))
+
+    def blit_prompt(self):
+        x = 1 / 5 * self.WIDTH
+        y = 19 / 20 * self.HEIGHT
+        width = 3 / 5 * self.WIDTH
+        height = 1 / 10 * self.HEIGHT
+        pygame.draw.rect(self.screen, self.GRID_COLOR, (x, y, width, height))
+
+        prompt_surface = self.render_text(
+            self.prompt, int(self.WIDTH * 0.02), self.TEXT_COLOR
+        )
+        self.blit_text(
+            prompt_surface, 0.5 * self.WIDTH, 39 / 40 * self.HEIGHT, "center"
+        )
 
     def blit_character_profile_images(self) -> None:
         for i in range(len(self.team_a)):
@@ -143,8 +197,7 @@ class FloorTest(Window):
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.insert_character(3, "a")  # for testing
-                    self.insert_character(2, "b")  # for testing
+                    pass  #
                 if event.type == pygame.QUIT:
                     running = False
 
