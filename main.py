@@ -3,6 +3,8 @@ import csv
 from classes.window_floorTest_deathmatch import Deathmatch
 from classes.character import Character
 
+from classes.cell import Cell
+
 
 def print_all_characters():
     dir_path = "data/characters"
@@ -24,7 +26,4 @@ def print_all_characters():
 dm = Deathmatch()
 dm.run()
 
-urek = Character(1)
-print(urek.get_info())
-
-print_all_characters()
+# print_all_characters()
