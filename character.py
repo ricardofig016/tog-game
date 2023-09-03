@@ -12,7 +12,15 @@ class Character(object):
             reader = csv.reader(csvfile)
             for row_number, row in enumerate(reader):
                 if row_number == line:
-                    self.id, self.name, self.sobriquet, self.position, self.rank = row
+                    (
+                        self.id,
+                        self.name,
+                        self.sobriquet,
+                        self.position,
+                        self.rank,
+                        self.volume,
+                        self.chapter,
+                    ) = row
                     break
         return
 
