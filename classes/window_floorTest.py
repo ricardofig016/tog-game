@@ -18,7 +18,7 @@ class FloorTest(Window):
         self.grid_size = grid_size
         self.GRID_COLOR = (50, 50, 50)
         self.team_a_size = team_a_size
-        self.team_a_size = team_b_size
+        self.team_b_size = team_b_size
         caption = f"{self.floor} - {self.name}"
         super().__init__(caption=caption, bg_image_path=bg_image_path)
         self.calc_grid_cell_size()
@@ -33,23 +33,6 @@ class FloorTest(Window):
     def get_info(self) -> str:
         info = self.name
         return info
-
-    def draw_screen_segments(self) -> None:
-        pygame.draw.line(
-            self.screen,
-            self.GRID_COLOR,
-            (self.WIDTH * (1 / 5), 0),
-            (self.WIDTH * (1 / 5), self.HEIGHT),
-            6,
-        )
-        pygame.draw.line(
-            self.screen,
-            self.GRID_COLOR,
-            (self.WIDTH - self.WIDTH * (1 / 5), 0),
-            (self.WIDTH - self.WIDTH * (1 / 5), self.HEIGHT),
-            6,
-        )
-        return
 
     def draw_grid(self) -> None:
         start_x = int(1 / 5 * self.WIDTH) + self.grid_cell_size
@@ -74,19 +57,16 @@ class FloorTest(Window):
     def insert_character(self, id: int, team: str) -> None:
         new_character = Character(id)
         if team.lower() == "a":
-            self.team_a.append(new_character)
+            if len(self.team_a) < self.team_a_size:
+                self.team_a.append(new_character)
             return
-        self.team_b.append(new_character)
+        if len(self.team_b) < self.team_b_size:
+            self.team_b.append(new_character)
         return
 
     def blit_teams(self) -> None:
+        self.blit_team_bg()
         # Team A
-        text_surface = self.render_text(  # text outline
-            "Team A", int(self.WIDTH * 0.032 + 2)
-        )
-        self.blit_text(
-            text_surface, 1 / 10 * self.WIDTH, 1.5 / 8 * self.HEIGHT, "center"
-        )
         text_surface = self.render_text(
             "Team A", int(self.WIDTH * 0.032), self.TEXT_COLOR
         )
@@ -95,12 +75,6 @@ class FloorTest(Window):
         )
 
         # Team B
-        text_surface = self.render_text(  # text outline
-            "Team B", int(self.WIDTH * 0.032 + 2)
-        )
-        self.blit_text(
-            text_surface, 9 / 10 * self.WIDTH, 1.5 / 8 * self.HEIGHT, "center"
-        )
         text_surface = self.render_text(
             "Team B", int(self.WIDTH * 0.032), self.TEXT_COLOR
         )
@@ -108,36 +82,73 @@ class FloorTest(Window):
             text_surface, 9 / 10 * self.WIDTH, 1.5 / 8 * self.HEIGHT, "center"
         )
 
-        self.blit_characters()
+        self.blit_character_profile_images()
+        self.blit_character_info()
+        return
 
-    def blit_characters(self) -> None:  # unfinished
+    def blit_team_bg(self):
+        x = 0
+        y = 1 / 8 * self.HEIGHT
+        width = 1 / 5 * self.WIDTH
+        height = (self.team_a_size + 1) / 8 * self.HEIGHT
+        pygame.draw.rect(self.screen, self.GRID_COLOR, (x, y, width, height))
+
+        x = self.WIDTH - width
+        height = (self.team_b_size + 1) / 8 * self.HEIGHT
+        pygame.draw.rect(self.screen, self.GRID_COLOR, (x, y, width, height))
+
+    def blit_character_profile_images(self) -> None:
         for i in range(len(self.team_a)):
             character = self.team_a[i]
+            img_size = 1 / 20 * self.WIDTH
             profile_img = self.load_and_resize_image(
-                character.profile_img_path, 1 / 20 * self.WIDTH, 1 / 20 * self.WIDTH
+                character.profile_img_path, img_size, img_size
             )
             self.screen.blit(
                 profile_img, (1 / 120 * self.WIDTH, 1 / 8 * (i + 2) * self.HEIGHT)
             )
 
-        for character in self.team_b:
+        for i in range(len(self.team_b)):
+            character = self.team_b[i]
+            img_size = 1 / 20 * self.WIDTH
             profile_img = self.load_and_resize_image(
-                character.profile_img_path, 100, 100
+                character.profile_img_path, img_size, img_size
             )
-            self.screen.blit(profile_img, (100, 100))
+            self.screen.blit(
+                profile_img,
+                (119 / 120 * self.WIDTH - img_size, 1 / 8 * (i + 2) * self.HEIGHT),
+            )
+        return
+
+    def blit_character_info(self):
+        for i in range(len(self.team_a)):
+            character = self.team_a[i]
+            text_surface = self.render_text(
+                character.name, int(self.WIDTH * 0.02), self.TEXT_COLOR
+            )
+            self.blit_text(
+                text_surface, 1 / 15 * self.WIDTH, 1 / 8 * (i + 2) * self.HEIGHT
+            )
+        for i in range(len(self.team_b)):
+            character = self.team_b[i]
+            text_surface = self.render_text(
+                character.name, int(self.WIDTH * 0.02), self.TEXT_COLOR
+            )
+            self.blit_text(
+                text_surface, 97 / 120 * self.WIDTH, 1 / 8 * (i + 2) * self.HEIGHT
+            )
 
     def run(self) -> None:
         running = True
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.insert_character(1, "a")
-                    self.insert_character(1, "b")
+                    self.insert_character(3, "a")  # for testing
+                    self.insert_character(2, "b")  # for testing
                 if event.type == pygame.QUIT:
                     running = False
 
             self.screen.blit(self.bg_image, (0, 0))
-            self.draw_screen_segments()
             self.draw_grid()
             self.blit_teams()
 
