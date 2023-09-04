@@ -2,12 +2,17 @@ import pygame
 
 
 class Window(object):
+    YELLOW = (255, 255, 0)
+    BLUE = (76, 255, 209)
+    DARK_GRAY = (50, 50, 50)
+    LIGHT_GRAY = (220, 220, 220)
+
     def __init__(self, bg_image_path, caption) -> None:
         pygame.init()
         self.WIDTH = 1500
         self.HEIGHT = 1000
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-        self.TEXT_COLOR = (220, 220, 220)
+        self.TEXT_COLOR = self.LIGHT_GRAY
         self.clock = pygame.time.Clock()
         self.bg_image = self.load_and_resize_image(
             bg_image_path, self.WIDTH, self.HEIGHT
