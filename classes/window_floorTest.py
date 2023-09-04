@@ -1,7 +1,9 @@
 import pygame
+import copy
 from classes.window import Window
 from classes.character import Character
 from classes.cell import Cell
+from classes.pygameButton import PygameButton
 
 
 class FloorTest(Window):
@@ -13,16 +15,21 @@ class FloorTest(Window):
         team_a_size: int,
         team_b_size: int,
         bg_image_path: str,
+        selected_cell: [int, int],
         prompt: str = None,
+        turn: str = "a",
     ) -> None:
         self.name = name
         self.floor = floor
         self.grid_size = grid_size
         self.create_grid()
-        self.GRID_COLOR = (50, 50, 50)
+        self.GRID_COLOR = self.DARK_GRAY
+        self.SELECTED_COLOR = self.YELLOW
         self.team_a_size = team_a_size
         self.team_b_size = team_b_size
+        self.selected_cell = selected_cell
         self.prompt = prompt
+        self.turn = turn
         caption = f"{self.floor} - {self.name}"
         super().__init__(caption=caption, bg_image_path=bg_image_path)
         self.calc_grid_cell_size()
@@ -67,7 +74,33 @@ class FloorTest(Window):
         for y in range(start_y, end_y + 1, self.grid_cell_size):
             pygame.draw.line(self.screen, self.GRID_COLOR, (start_x, y), (end_x, y), 4)
 
+        self.draw_selected_square()
         return
+
+    def draw_selected_square(self):
+        start_x = (
+            self.starting_cell_coords[0] + self.selected_cell[1] * self.grid_cell_size
+        )
+        start_y = (
+            self.starting_cell_coords[1] + self.selected_cell[0] * self.grid_cell_size
+        )
+        end_x = (
+            self.starting_cell_coords[0]
+            + self.selected_cell[1] * self.grid_cell_size
+            + self.grid_cell_size
+        )
+        end_y = (
+            self.starting_cell_coords[1]
+            + self.selected_cell[0] * self.grid_cell_size
+            + self.grid_cell_size
+        )
+
+        color = self.SELECTED_COLOR
+
+        pygame.draw.line(self.screen, color, (start_x, start_y), (end_x, start_y), 4)
+        pygame.draw.line(self.screen, color, (start_x, end_y), (end_x, end_y), 4)
+        pygame.draw.line(self.screen, color, (start_x, start_y), (start_x, end_y), 4)
+        pygame.draw.line(self.screen, color, (end_x, start_y), (end_x, end_y), 4)
 
     def blit_grid_elements(self):
         for i in range(self.grid_size):
@@ -86,7 +119,7 @@ class FloorTest(Window):
         new_character = Character(id)
         if team.lower() == "a":
             if len(self.team_a) < self.team_a_size and self.grid[x][y].insert_character(
-                new_character
+                new_character, team
             ):
                 self.team_a.append(new_character)
                 self.grid[x][y]
@@ -94,13 +127,13 @@ class FloorTest(Window):
 
         if team.lower() == "b":
             if len(self.team_b) < self.team_b_size and self.grid[x][y].insert_character(
-                new_character
+                new_character, team
             ):
                 self.team_b.append(new_character)
             return
 
         # neutral character
-        self.grid[x][y].insert_character(new_character)
+        self.grid[x][y].insert_character(new_character, team)
 
     def blit_teams(self) -> None:
         self.blit_team_bg()
@@ -192,12 +225,67 @@ class FloorTest(Window):
                 text_surface, 97 / 120 * self.WIDTH, 1 / 8 * (i + 2) * self.HEIGHT
             )
 
+    def tab_selected_cell(self) -> None:
+        valid_coords = []
+        for i in range(self.grid_size):
+            for j in range(self.grid_size):
+                cell = self.grid[i][j]
+                if cell.character and cell.team == "a":
+                    valid_coords.append([i, j])
+        index = valid_coords.index(self.selected_cell)
+        if index == len(valid_coords) - 1:
+            self.selected_cell = valid_coords[0]
+            return
+        self.selected_cell = valid_coords[index + 1]
+        return
+
+    def move_character(self, key: str) -> None:
+        h_mult = 0
+        v_mult = 0
+        sel_cell = self.grid[self.selected_cell[0]][self.selected_cell[1]]
+        if key == "left" and self.selected_cell[1] != 0:
+            h_mult = -1
+        if key == "right" and self.selected_cell[1] != self.grid_size - 1:
+            h_mult = +1
+        if key == "up" and self.selected_cell[0] != 0:
+            v_mult = -1
+        if key == "down" and self.selected_cell[0] != self.grid_size - 1:
+            v_mult = +1
+
+        if not self.grid[self.selected_cell[0] + v_mult][
+            self.selected_cell[1] + h_mult
+        ].is_free():
+            return
+
+        self.grid[self.selected_cell[0] + v_mult][
+            self.selected_cell[1] + h_mult
+        ] = copy.deepcopy(sel_cell)
+        sel_cell.clear_character()
+        self.selected_cell = [
+            self.selected_cell[0] + v_mult,
+            self.selected_cell[1] + h_mult,
+        ]
+        return
+
     def run(self) -> None:
         running = True
         while running:
+            self.mouse_pos = pygame.mouse.get_pos()
             for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_TAB:
+                        self.tab_selected_cell()
+                    if event.key == pygame.K_LEFT:
+                        self.move_character("left")
+                    if event.key == pygame.K_RIGHT:
+                        self.move_character("right")
+                    if event.key == pygame.K_UP:
+                        self.move_character("up")
+                    if event.key == pygame.K_DOWN:
+                        self.move_character("down")
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    pass  #
+                    pass  #####################################
                 if event.type == pygame.QUIT:
                     running = False
 
