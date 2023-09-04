@@ -6,6 +6,7 @@ from classes.character import Character
 class Cell(object):
     def __init__(self) -> None:
         self.character = None
+        self.team = None
         self.element = ""
         self.img = self.get_img()
 
@@ -19,7 +20,7 @@ class Cell(object):
             return self.character.profile_img_path
         if self.element == "boulder":
             return self.get_random_boulder()
-        return "assets/cell_elements/none.png"
+        return "assets/cell_elements/white.png"
 
     def get_random_boulder(self) -> str:
         dir_path = "assets/cell_elements/boulders"
@@ -30,9 +31,21 @@ class Cell(object):
                 images.append(file_path)
         return images[random.randint(0, len(images) - 1)]
 
-    def insert_character(self, character: Character) -> bool:
+    def is_free(self):
+        if self.character or self.element in ["boulder"]:
+            return False
+        return True
+
+    def insert_character(self, character: Character, team: str) -> bool:
         if self.character or self.element in ["boulder"]:
             return False
         self.character = character
+        self.team = team
         self.img = self.get_img()
         return True
+
+    def clear_character(self) -> None:
+        self.character = None
+        self.team = None
+        self.img = self.get_img()
+        return
