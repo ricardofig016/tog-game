@@ -1,7 +1,6 @@
 import random
 import os
 from classes.window_floorTest import FloorTest
-from classes.cell import Cell
 
 
 class Deathmatch(FloorTest):
@@ -13,7 +12,9 @@ class Deathmatch(FloorTest):
             team_a_size=2,
             team_b_size=1,
             bg_image_path=self.get_random_bg_image(),
+            selected_cell=[4, 0],
             prompt="Team up with Khun and defeat Rak",
+            turn="a",
         )
         self.populate_grid()
 
@@ -22,7 +23,7 @@ class Deathmatch(FloorTest):
         self.grid[1][3].set_element("boulder")
         self.grid[2][3].set_element("boulder")
         self.insert_character(3, "a", 4, 0)
-        self.insert_character(4, "n", 1, 1)
+        self.insert_character(4, "a", 1, 1)  # change to "a"
         self.insert_character(5, "b", 0, 4)
 
     def get_random_bg_image(self):
