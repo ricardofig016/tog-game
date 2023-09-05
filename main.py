@@ -4,6 +4,7 @@ from classes.window_floorTest_deathmatch import Deathmatch
 from classes.player import Player
 from classes.character import Character
 from classes.cell import Cell
+from classes.window_login import Login
 
 
 def print_all_characters():
@@ -23,8 +24,11 @@ def print_all_characters():
         print(character)
 
 
-p = Player("ricardo")
-print(p)
+login = Login()
+login.run()
+
+# p = Player("ricardo")
+# print(p)
 
 # dm = Deathmatch()
 # dm.run()

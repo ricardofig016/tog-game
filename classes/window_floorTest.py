@@ -522,8 +522,6 @@ class FloorTest(Window):
                             self.move_character("d")
                     if event.key == pygame.K_ESCAPE:
                         running = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    pass  #####################################
                 if event.type == pygame.QUIT:
                     running = False
 

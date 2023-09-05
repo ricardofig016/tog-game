@@ -5,10 +5,9 @@ class Player(object):
     def __init__(self, username: str = None) -> None:
         self.username = username
         self.player_file = os.path.join("data/players", self.username + ".txt")
-        if self.exists():
-            self.read_data()
-        else:
+        if not self.exists():
             self.create()
+        self.read_data()
 
     def exists(self) -> bool:
         dir_path = os.path.split(self.player_file)[0]
@@ -19,7 +18,8 @@ class Player(object):
 
     def create(self) -> None:
         with open(self.player_file, "w") as file:
-            file.write(f"id:{self.test}\n")
+            file.write("floor:1\n")
+            file.write("test:1\n")
         return
 
     def read_data(self) -> None:
@@ -27,10 +27,8 @@ class Player(object):
         with open(self.player_file, "r") as file:
             for line in file:
                 file_values.append(line.strip().split(":")[1])
-            if len(file_values) == 1:
-                (self.test) = file_values
-                return
-            raise Exception("invalid player file")
+            self.floor, self.test = file_values
+        return
 
     def delete(self) -> None:
         os.remove(self.player_file)

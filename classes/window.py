@@ -10,7 +10,7 @@ class Window(object):
     LIGHT_GRAY = (220, 220, 220)
     HEIGHT = 900  # default 900
     WIDTH = int(HEIGHT * 1.5)
-    SLEEP_TIME = 0  # default 0.3
+    SLEEP_TIME = 0.3  # default 0.3
 
     def __init__(self, bg_image_path, caption) -> None:
         pygame.init()
@@ -69,16 +69,4 @@ class Window(object):
         return
 
     def run(self) -> None:
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-
-            self.screen.blit(self.bg_image, (0, 0))
-
-            pygame.display.update()
-            self.clock.tick(60)
-
-        pygame.quit()
-        return
+        pass
