@@ -7,13 +7,20 @@ class Cell(object):
     def __init__(self) -> None:
         self.character = None
         self.team = None
+        self.elements = ["boulder"]
         self.element = ""
         self.img = self.get_img()
 
     def set_element(self, elem: str) -> None:
-        if elem in ["", "boulder"]:
+        if elem == "" or elem in self.elements:
             self.element = elem
             self.img = self.get_img()
+        return
+
+    def set_team(self, team: str) -> None:
+        self.team = team
+        self.img = self.get_img()
+        return
 
     def get_img(self) -> str:
         if self.character:
@@ -32,12 +39,12 @@ class Cell(object):
         return images[random.randint(0, len(images) - 1)]
 
     def is_free(self):
-        if self.character or self.element in ["boulder"]:
+        if self.character or self.element in self.elements:
             return False
         return True
 
     def insert_character(self, character: Character, team: str) -> bool:
-        if self.character or self.element in ["boulder"]:
+        if self.character or self.element in self.elements:
             return False
         self.character = character
         self.team = team

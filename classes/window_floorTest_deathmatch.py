@@ -23,8 +23,8 @@ class Deathmatch(FloorTest):
         self.grid[1][3].set_element("boulder")
         self.grid[2][3].set_element("boulder")
         self.insert_character(3, "a", 4, 0)
-        self.insert_character(4, "a", 1, 1)  # change to "a"
-        self.insert_character(5, "b", 0, 4)
+        self.insert_character(4, "n", 1, 1)  # change to "n"
+        self.insert_character(5, "b", 0, 3)
 
     def get_random_bg_image(self):
         dir_path = "assets/deathmatch_test"
@@ -34,3 +34,35 @@ class Deathmatch(FloorTest):
             if os.path.isfile(file_path):
                 images.append(file_path)
         return images[random.randint(0, len(images) - 1)]
+
+    # moves rak in bams direction
+    def make_opponent_turn(self):
+        move = self.find_best_move()
+        if move:
+            self.move_character(move)
+            return
+        av_moves = self.available_moves(self.selected_cell)
+        if av_moves:
+            self.move_character(random.choice(av_moves))
+            return
+        self.flip_turn()
+        return
+
+    def find_best_move(self) -> str:
+        """
+        str: "l", "r", "u", "d"
+        """
+        bam_coords = self.find_character(3, "a")
+        path = ""
+        if bam_coords:
+            path = self.bfs(self.selected_cell, bam_coords)
+        if path:
+            return path[0]
+        return ""
+
+    def attack(self, attacker: [int, int], defender: [int, int]):
+        if len(self.team_a) > 1:
+            self.winner = "a"
+            return
+        self.winner = "b"
+        return

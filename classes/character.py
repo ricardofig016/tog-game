@@ -19,6 +19,8 @@ class Character(object):
                         self.position,
                         self.floor,
                     ) = row
+                    self.id = int(self.id)
+                    self.floor = int(self.floor)
                     break
         return
 

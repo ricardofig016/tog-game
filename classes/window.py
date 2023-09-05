@@ -6,11 +6,12 @@ class Window(object):
     BLUE = (76, 255, 209)
     DARK_GRAY = (50, 50, 50)
     LIGHT_GRAY = (220, 220, 220)
+    HEIGHT = 900  # default 900
+    WIDTH = int(HEIGHT * 1.5)
+    SLEEP_TIME = 0  # default 0.3
 
     def __init__(self, bg_image_path, caption) -> None:
         pygame.init()
-        self.WIDTH = 1500
-        self.HEIGHT = 1000
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.TEXT_COLOR = self.LIGHT_GRAY
         self.clock = pygame.time.Clock()
@@ -39,6 +40,10 @@ class Window(object):
     def blit_text(
         self, text_surface: pygame.Surface, x: int, y: int, align: str = None
     ) -> None:
+        """
+        Args:
+            align (str, optional): Can be "left", "right", "top", "bottom", "center". Defaults to None.
+        """
         if align == "left":
             align_mult = (0, -0.5)
         elif align == "right":
