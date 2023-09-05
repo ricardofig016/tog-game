@@ -30,6 +30,8 @@ class FloorTest(Window):
         self.team_a_size = team_a_size
         self.team_b_size = team_b_size
         self.selected_cell = selected_cell
+        self.team_a_selected_preference = None
+        self.team_b_selected_preference = None
         self.prompt = prompt
         self.turn = turn
         caption = f"{self.floor} - {self.name}"
@@ -104,6 +106,16 @@ class FloorTest(Window):
         pygame.draw.line(self.screen, color, (start_x, end_y), (end_x, end_y), 4)
         pygame.draw.line(self.screen, color, (start_x, start_y), (start_x, end_y), 4)
         pygame.draw.line(self.screen, color, (end_x, start_y), (end_x, end_y), 4)
+
+    def update_selected_cell(self, coords: [int, int]) -> None:
+        self.selected_cell = coords
+        if self.turn == "a":
+            self.team_a_selected_preference = self.selected_cell
+        elif self.turn == "b":
+            self.team_b_selected_preference = self.selected_cell
+        else:
+            raise Exception("invalid team")
+        return
 
     def blit_grid_elements(self):
         for i in range(self.grid_size):
@@ -255,12 +267,21 @@ class FloorTest(Window):
         return
 
     def reset_selected_cell(self) -> None:
+        if self.turn == "a" and self.team_a_selected_preference:
+            self.selected_cell = self.team_a_selected_preference[:]
+            return
+        elif self.turn == "b" and self.team_b_selected_preference:
+            self.selected_cell = self.team_b_selected_preference[:]
+            return
+
         for i in range(self.grid_size):
             for j in range(self.grid_size):
                 cell = self.grid[i][j]
                 if cell.character and cell.team == self.turn:
                     self.selected_cell = [i, j]
                     return
+        raise Exception("team is empty")
+        return
 
     def move_character(self, key: str) -> None:
         """
@@ -287,10 +308,9 @@ class FloorTest(Window):
             self.selected_cell[1] + h_mult
         ] = copy.deepcopy(sel_cell)
         sel_cell.clear_character()
-        self.selected_cell = [
-            self.selected_cell[0] + v_mult,
-            self.selected_cell[1] + h_mult,
-        ]
+        self.update_selected_cell(
+            [self.selected_cell[0] + v_mult, self.selected_cell[1] + h_mult]
+        )
 
         self.check_interactions(self.selected_cell)
         self.flip_turn()

@@ -8,7 +8,7 @@ class Window(object):
     LIGHT_GRAY = (220, 220, 220)
     HEIGHT = 900  # default 900
     WIDTH = int(HEIGHT * 1.5)
-    SLEEP_TIME = 0  # default 0.3
+    SLEEP_TIME = 0.3  # default 0.3
 
     def __init__(self, bg_image_path, caption) -> None:
         pygame.init()
