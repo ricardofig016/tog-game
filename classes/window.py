@@ -2,13 +2,15 @@ import pygame
 
 
 class Window(object):
+    RED = (230, 30, 30)
+    GREEN = (50, 230, 50)
     YELLOW = (255, 255, 0)
     BLUE = (76, 255, 209)
     DARK_GRAY = (50, 50, 50)
     LIGHT_GRAY = (220, 220, 220)
     HEIGHT = 900  # default 900
     WIDTH = int(HEIGHT * 1.5)
-    SLEEP_TIME = 0.3  # default 0.3
+    SLEEP_TIME = 0  # default 0.3
 
     def __init__(self, bg_image_path, caption) -> None:
         pygame.init()

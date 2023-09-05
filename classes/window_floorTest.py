@@ -54,10 +54,6 @@ class FloorTest(Window):
         self.grid_cell_size = int(space / (self.grid_size + 2))
         return
 
-    def get_info(self) -> str:
-        info = self.name
-        return info
-
     def draw_grid(self) -> None:
         start_x = int(1 / 5 * self.WIDTH) + self.grid_cell_size
         end_x = start_x + self.grid_cell_size * self.grid_size
@@ -467,11 +463,13 @@ class FloorTest(Window):
 
         if self.winner == "a":
             text = "YOU WIN"
+            color = self.GREEN
         elif self.winner == "b":
             text = "YOU LOSE"
+            color = self.RED
         else:
             raise Exception(f"{self.winner} is not a valid winner")
-        text_surface = self.render_text(text, int(self.WIDTH * 0.2), self.TEXT_COLOR)
+        text_surface = self.render_text(text, int(self.WIDTH * 0.2), color)
         self.blit_text(text_surface, 0.5 * self.WIDTH, 0.5 * self.HEIGHT, "center")
 
         text = "[click anywhere to continue]"

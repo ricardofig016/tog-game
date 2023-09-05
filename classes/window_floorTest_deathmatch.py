@@ -13,7 +13,7 @@ class Deathmatch(FloorTest):
             team_b_size=1,
             bg_image_path=self.get_random_bg_image(),
             selected_cell=[4, 0],
-            prompt="Team up with Khun and defeat Rak",
+            prompt="Team up with Khun and use him to defeat Rak",
             turn="a",
         )
         self.populate_grid()
@@ -61,7 +61,10 @@ class Deathmatch(FloorTest):
         return ""
 
     def attack(self, attacker: [int, int], defender: [int, int]):
-        if len(self.team_a) > 1:
+        if (
+            self.grid[defender[0]][defender[1]].character.id == 4
+            or self.grid[attacker[0]][attacker[1]].character.id == 4
+        ):
             self.winner = "a"
             return
         self.winner = "b"
