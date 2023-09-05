@@ -24,13 +24,6 @@ class Character(object):
                     break
         return
 
-    def get_info(self):
-        info = ""
-        for var_name, var_value in vars(self).items():
-            info += f"{var_name}: {var_value}"
-            info += "\n"
-        return info[:-1]
-
     def get_profile_img(self) -> str:
         dir_path = "assets/character_profiles"
         prefix = f"{self.id}_"
@@ -39,4 +32,8 @@ class Character(object):
                 return os.path.join(dir_path, filename)
 
     def __str__(self) -> str:
-        return self.name
+        info = ""
+        for var_name, var_value in vars(self).items():
+            info += f"{var_name}: {var_value}"
+            info += "\n"
+        return info[:-1]

@@ -23,7 +23,8 @@ def print_all_characters():
         print(character)
 
 
-p = Player("test")
+p = Player("ricardo")
+print(p)
 
 # dm = Deathmatch()
 # dm.run()
