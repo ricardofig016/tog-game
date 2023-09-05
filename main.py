@@ -1,8 +1,8 @@
 import os
 import csv
 from classes.window_floorTest_deathmatch import Deathmatch
+from classes.player import Player
 from classes.character import Character
-
 from classes.cell import Cell
 
 
@@ -23,7 +23,9 @@ def print_all_characters():
         print(character)
 
 
-dm = Deathmatch()
-dm.run()
+p = Player("test")
+
+# dm = Deathmatch()
+# dm.run()
 
 # print_all_characters()
