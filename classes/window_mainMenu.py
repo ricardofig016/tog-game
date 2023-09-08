@@ -27,6 +27,7 @@ class MainMenu(Window):
             "Workshop (W)",
             "Summon (S)",
             "Pocket (P)",
+            "Help (H)",
         ]
         img_path = "assets/light_gray.png"
 

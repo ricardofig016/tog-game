@@ -33,7 +33,6 @@ def run():
 
 
 p = Player("ricardo")
-print(p)
 
 main_menu = MainMenu(p)
 main_menu.run()
