@@ -1,10 +1,11 @@
 import os
 import csv
-from classes.window_floorTest_deathmatch import Deathmatch
+from classes.window_login import Login
 from classes.player import Player
+from classes.window_mainMenu import MainMenu
+from classes.window_floorTest_deathmatch import Deathmatch
 from classes.character import Character
 from classes.cell import Cell
-from classes.window_login import Login
 
 
 def print_all_characters():
@@ -24,13 +25,25 @@ def print_all_characters():
         print(character)
 
 
-login = Login()
-login.run()
+def run():
+    login = Login()
+    player = login.run()
+    main_menu = MainMenu(player)
+    main_menu.run()
 
-# p = Player("ricardo")
-# print(p)
+
+p = Player("ricardo")
+print(p)
+
+main_menu = MainMenu(p)
+main_menu.run()
+
 
 # dm = Deathmatch()
 # dm.run()
 
 # print_all_characters()
+
+if __name__ == "__main__":
+    # run()
+    pass

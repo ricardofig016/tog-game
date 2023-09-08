@@ -1,5 +1,6 @@
 import pygame
 from classes.window import Window
+from classes.player import Player
 
 
 class Login(Window):
@@ -22,8 +23,22 @@ class Login(Window):
         pygame.draw.rect(self.screen, self.DARK_GRAY, (x, y, width, height))
         return
 
-    def blit_login_options(self):
+    def blit_login(self, username):
         self.blit_center_rect()
+
+        text = self.render_text("Log In", int(self.WIDTH * 0.06), self.TEXT_COLOR)
+        self.blit_text(text, 0.5 * self.WIDTH, 0.4 * self.HEIGHT, "center")
+
+        x = 1 / 3 * self.WIDTH
+        y = 11 / 20 * self.HEIGHT
+        width = 1 / 3 * self.WIDTH
+        height = 1 / 20 * self.HEIGHT
+        pygame.draw.rect(self.screen, self.LIGHT_GRAY, (x, y, width, height))
+
+        text = self.render_text(username, int(self.WIDTH * 0.03), self.DARK_GRAY)
+        self.blit_text(text, 0.5 * self.WIDTH, 23 / 40 * self.HEIGHT, "center")
+
+        return
 
     def start_loop(self):
         running = True
@@ -43,28 +58,36 @@ class Login(Window):
             self.clock.tick(60)
         return
 
-    def login_option_loop(self):
+    def login_loop(self) -> str:
         running = True
+        username = ""
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
+                    if event.unicode.isalnum():
+                        if len(username) <= 20:
+                            username += event.unicode
+                    if event.key == pygame.K_BACKSPACE:
+                        username = username[:-1]
+                    if event.key == pygame.K_RETURN and len(username) > 0:
                         running = False
                 if event.type == pygame.QUIT:
-                    running = False
+                    pygame.quit()
+                    return ""
 
             self.screen.blit(self.bg_image, (0, 0))
-            self.blit_login_options()
+            self.blit_login(username)
 
             pygame.display.update()
             self.clock.tick(60)
-        return
+        return username
 
-    def run(self) -> None:
+    def run(self) -> Player:
         self.start_loop()
-        opt = self.login_option_loop()
-        if opt == 3:
-            pass
+        if not username:
+            return
+        username = self.login_loop()
+        player = Player(username)
 
         pygame.quit()
-        return
+        return player

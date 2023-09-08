@@ -8,7 +8,7 @@ class Window(object):
     BLUE = (76, 255, 209)
     DARK_GRAY = (50, 50, 50)
     LIGHT_GRAY = (220, 220, 220)
-    HEIGHT = 900  # default 900
+    HEIGHT = 500  # default 900
     WIDTH = int(HEIGHT * 1.5)
     SLEEP_TIME = 0.3  # default 0.3
 
@@ -66,6 +66,21 @@ class Window(object):
                 int(y + text_surface.get_height() * align_mult[1]),
             ),
         )
+        return
+
+    def draw_rect_lines(
+        self,
+        color: (int, int, int),
+        str_x: int,
+        str_y: int,
+        end_x: int,
+        end_y: int,
+        width: int,
+    ) -> None:
+        pygame.draw.line(self.screen, color, (str_x, str_y), (end_x, str_y), width)
+        pygame.draw.line(self.screen, color, (str_x, end_y), (end_x, end_y), width)
+        pygame.draw.line(self.screen, color, (str_x, str_y), (str_x, end_y), width)
+        pygame.draw.line(self.screen, color, (end_x, str_y), (end_x, end_y), width)
         return
 
     def run(self) -> None:

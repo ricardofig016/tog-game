@@ -78,7 +78,7 @@ class FloorTest(Window):
         self.draw_selected_square()
         return
 
-    def draw_selected_square(self):
+    def draw_selected_square(self) -> None:
         start_x = (
             self.starting_cell_coords[0] + self.selected_cell[1] * self.grid_cell_size
         )
@@ -96,12 +96,8 @@ class FloorTest(Window):
             + self.grid_cell_size
         )
 
-        color = self.SELECTED_COLOR
-
-        pygame.draw.line(self.screen, color, (start_x, start_y), (end_x, start_y), 4)
-        pygame.draw.line(self.screen, color, (start_x, end_y), (end_x, end_y), 4)
-        pygame.draw.line(self.screen, color, (start_x, start_y), (start_x, end_y), 4)
-        pygame.draw.line(self.screen, color, (end_x, start_y), (end_x, end_y), 4)
+        self.draw_rect_lines(self.SELECTED_COLOR, start_x, start_y, end_x, end_y, 4)
+        return
 
     def update_selected_cell(self, coords: [int, int]) -> None:
         self.selected_cell = coords
