@@ -8,6 +8,8 @@ class Player(object):
         if not self.exists():
             self.create()
         self.read_data()
+        self.floor = int(self.floor)
+        self.test = int(self.test)
 
     def exists(self) -> bool:
         dir_path = os.path.split(self.player_file)[0]
@@ -18,7 +20,7 @@ class Player(object):
 
     def create(self) -> None:
         with open(self.player_file, "w") as file:
-            file.write("floor:1\n")
+            file.write("floor:2\n")  # testing,change back to 1
             file.write("test:1\n")
         return
 

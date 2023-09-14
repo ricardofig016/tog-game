@@ -27,7 +27,7 @@ class Cell(object):
             return self.character.profile_img_path
         if self.element == "boulder":
             return self.get_random_boulder()
-        return "assets/cell_elements/white.png"
+        return "assets/white.png"
 
     def get_random_boulder(self) -> str:
         dir_path = "assets/cell_elements/boulders"

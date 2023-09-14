@@ -11,7 +11,7 @@ class Login(Window):
 
     def blit_start_text(self) -> None:
         text = "[click anywhere to continue]"
-        text_surface = self.render_text(text, int(self.WIDTH * 0.032), self.DARK_GRAY)
+        text_surface = self.render_text(text, int(self.WIDTH * 0.05), self.DARK_GRAY)
         self.blit_text(text_surface, 0.5 * self.WIDTH, 0.05 * self.HEIGHT, "center")
         return
 
@@ -45,6 +45,9 @@ class Login(Window):
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        return
                     running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     running = False
@@ -71,6 +74,9 @@ class Login(Window):
                         username = username[:-1]
                     if event.key == pygame.K_RETURN and len(username) > 0:
                         running = False
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        return ""
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     return ""
@@ -84,9 +90,9 @@ class Login(Window):
 
     def run(self) -> Player:
         self.start_loop()
+        username = self.login_loop()
         if not username:
             return
-        username = self.login_loop()
         player = Player(username)
 
         pygame.quit()

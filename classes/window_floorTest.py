@@ -436,26 +436,7 @@ class FloorTest(Window):
         return
 
     def blit_winner(self):
-        x = 0
-        y = 1 / 4 * self.HEIGHT
-        width = self.WIDTH
-        height = 1 / 2 * self.HEIGHT
-        pygame.draw.rect(self.screen, self.GRID_COLOR, (x, y, width, height))
-
-        pygame.draw.line(
-            self.screen,
-            self.LIGHT_GRAY,
-            (0, 1 / 4 * self.HEIGHT),
-            (self.WIDTH, 1 / 4 * self.HEIGHT),
-            4,
-        )
-        pygame.draw.line(
-            self.screen,
-            self.LIGHT_GRAY,
-            (0, 3 / 4 * self.HEIGHT),
-            (self.WIDTH, 3 / 4 * self.HEIGHT),
-            4,
-        )
+        self.blit_popup()
 
         if self.winner == "a":
             text = "YOU WIN"
@@ -467,10 +448,6 @@ class FloorTest(Window):
             raise Exception(f"{self.winner} is not a valid winner")
         text_surface = self.render_text(text, int(self.WIDTH * 0.2), color)
         self.blit_text(text_surface, 0.5 * self.WIDTH, 0.5 * self.HEIGHT, "center")
-
-        text = "[click anywhere to continue]"
-        text_surface = self.render_text(text, int(self.WIDTH * 0.032), self.TEXT_COLOR)
-        self.blit_text(text_surface, 0.5 * self.WIDTH, 0.65 * self.HEIGHT, "center")
         return
 
     def winner_loop(self):
@@ -482,7 +459,8 @@ class FloorTest(Window):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     running = False
                 if event.type == pygame.QUIT:
-                    running = False
+                    pygame.quit()
+                    return
 
             self.screen.blit(self.bg_image, (0, 0))
             self.draw_grid()
@@ -491,7 +469,6 @@ class FloorTest(Window):
 
             pygame.display.update()
             self.clock.tick(60)
-        pygame.quit()
         return
 
     def run(self) -> None:
@@ -519,7 +496,8 @@ class FloorTest(Window):
                     if event.key == pygame.K_ESCAPE:
                         running = False
                 if event.type == pygame.QUIT:
-                    running = False
+                    pygame.quit()
+                    return
 
             self.screen.blit(self.bg_image, (0, 0))
             self.draw_grid()
@@ -532,6 +510,4 @@ class FloorTest(Window):
                 time.sleep(self.SLEEP_TIME)
                 self.winner_loop()
                 running = False
-
-        pygame.quit()
         return

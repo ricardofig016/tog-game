@@ -8,7 +8,7 @@ class Window(object):
     BLUE = (76, 255, 209)
     DARK_GRAY = (50, 50, 50)
     LIGHT_GRAY = (220, 220, 220)
-    HEIGHT = 500  # default 900
+    HEIGHT = 900  # default 900
     WIDTH = int(HEIGHT * 1.5)
     SLEEP_TIME = 0.3  # default 0.3
 
@@ -66,6 +66,33 @@ class Window(object):
                 int(y + text_surface.get_height() * align_mult[1]),
             ),
         )
+        return
+
+    def blit_popup(self):
+        x = 0
+        y = 1 / 4 * self.HEIGHT
+        width = self.WIDTH
+        height = 1 / 2 * self.HEIGHT
+        pygame.draw.rect(self.screen, self.DARK_GRAY, (x, y, width, height))
+
+        pygame.draw.line(
+            self.screen,
+            self.LIGHT_GRAY,
+            (0, 1 / 4 * self.HEIGHT),
+            (self.WIDTH, 1 / 4 * self.HEIGHT),
+            4,
+        )
+        pygame.draw.line(
+            self.screen,
+            self.LIGHT_GRAY,
+            (0, 3 / 4 * self.HEIGHT),
+            (self.WIDTH, 3 / 4 * self.HEIGHT),
+            4,
+        )
+
+        text = "[click anywhere to continue]"
+        text_surface = self.render_text(text, int(self.WIDTH * 0.032), self.TEXT_COLOR)
+        self.blit_text(text_surface, 0.5 * self.WIDTH, 0.65 * self.HEIGHT, "center")
         return
 
     def draw_rect_lines(
