@@ -7,7 +7,7 @@ class Cell(object):
     def __init__(self) -> None:
         self.character = None
         self.team = None
-        self.elements = ["boulder"]
+        self.elements = ["boulder", "bars"]
         self.element = ""
         self.img = self.get_img()
 
@@ -27,6 +27,8 @@ class Cell(object):
             return self.character.profile_img_path
         if self.element == "boulder":
             return self.get_random_boulder()
+        if self.element == "bars":
+            return "assets/cell_elements/bars.jpg"
         return "assets/white.png"
 
     def get_random_boulder(self) -> str:

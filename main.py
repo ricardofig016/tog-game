@@ -42,11 +42,11 @@ def run() -> None:
 # main_menu.run()
 #
 #
-# dm = Ball()
-# dm.run()
+dm = Ball()
+dm.run()
 #
 # print_all_characters()
 
 if __name__ == "__main__":
-    run()
+    # run()
     pass

@@ -18,6 +18,7 @@ class Character(object):
                         self.arc,
                         self.position,
                         self.floor,
+                        self.usable,
                     ) = row
                     self.id = int(self.id)
                     self.floor = int(self.floor)

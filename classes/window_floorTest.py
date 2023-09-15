@@ -272,7 +272,8 @@ class FloorTest(Window):
                 if cell.character and cell.team == self.turn:
                     self.selected_cell = [i, j]
                     return
-        raise Exception("team is empty")
+
+        self.check_win()
         return
 
     def move_character(self, key: str) -> None:
@@ -435,6 +436,35 @@ class FloorTest(Window):
         print(attacker, defender)
         return
 
+    def kill_character(self, coords: (int, int)) -> None:
+        x, y = coords
+        id = self.grid[x][y].character.id
+        if self.grid[x][y].team == "a":
+            for i in range(len(self.team_a)):
+                if self.team_a[i].id == id:
+                    self.team_a.pop(i)
+                    break
+            else:
+                raise Exception("character not in team A")
+
+        elif self.grid[x][y].team == "b":
+            for i in range(len(self.team_b)):
+                if self.team_b[i].id == id:
+                    self.team_b.pop(i)
+                    break
+            else:
+                raise Exception("character not in team B")
+
+        self.grid[x][y].clear_character()
+        return
+
+    def check_win(self):
+        if len(self.team_a) == 0:
+            return "b"
+        elif len(self.team_b) == 0:
+            return "a"
+        return
+
     def blit_winner(self):
         self.blit_popup()
 
@@ -474,8 +504,6 @@ class FloorTest(Window):
     def run(self) -> None:
         running = True
         while running:
-            # self.mouse_pos = pygame.mouse.get_pos()
-
             if self.turn == "b":
                 time.sleep(self.SLEEP_TIME)
                 self.make_opponent_turn()

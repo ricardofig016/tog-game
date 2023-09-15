@@ -1,8 +1,8 @@
-id,name,arc,position,floor
-1,Urek Mazino,The Flower of Zigena,Fisherman,21
-2,Jue Viole Grace,Last Chance,Wave Controler,20
-3,Twenty-Fifth Baam,Headon's Floor,None,1
-4,Khun Aguero Agnis,Evankhell's Hell,None,2
-5,Rak Wraithraiser,Evankhell's Hell,Spear Bearer,2
-6,Big Ass Shinue from 1F,Headon's Floor,None,1
-7,Big Black Ball,Headon's Floor,None,1
+id,name,arc,position,floor,usable
+1,Urek Mazino,The Flower of Zigena,Fisherman,21,true
+2,Jue Viole Grace,Last Chance,Wave Controler,20,true
+3,Twenty-Fifth Baam,Headon's Floor,None,1,true
+4,Khun Aguero Agnis,Evankhell's Hell,Light Bearer,2,true
+5,Rak Wraithraiser,Evankhell's Hell,Spear Bearer,2,true
+6,White Steel Eel,Headon's Floor,None,1,false
+7,Ball,Headon's Floor,None,1,false

@@ -8,7 +8,7 @@ class Window(object):
     BLUE = (76, 255, 209)
     DARK_GRAY = (50, 50, 50)
     LIGHT_GRAY = (220, 220, 220)
-    HEIGHT = 900  # default 900
+    HEIGHT = 500  # default 900
     WIDTH = int(HEIGHT * 1.5)
     SLEEP_TIME = 0.3  # default 0.3
 

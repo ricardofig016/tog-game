@@ -60,7 +60,7 @@ class Deathmatch(FloorTest):
             return path[0]
         return ""
 
-    def attack(self, attacker: [int, int], defender: [int, int]):
+    def attack(self, attacker: [int, int], defender: [int, int]) -> None:
         if (
             self.grid[defender[0]][defender[1]].character.id == 4
             or self.grid[attacker[0]][attacker[1]].character.id == 4
