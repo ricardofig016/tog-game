@@ -20,7 +20,7 @@ class Player(object):
 
     def create(self) -> None:
         with open(self.player_file, "w") as file:
-            file.write("floor:2\n")  # testing,change back to 1
+            file.write("floor:1\n")
             file.write("test:1\n")
         return
 
@@ -30,6 +30,26 @@ class Player(object):
             for line in file:
                 file_values.append(line.strip().split(":")[1])
             self.floor, self.test = file_values
+        return
+
+    def update_file(self) -> None:
+        with open(self.player_file, "r") as file:
+            lines = file.readlines()
+
+        lines[0] = f"floor:{self.floor}\n"
+        lines[1] = f"test:{self.test}\n"
+
+        with open(self.player_file, "w") as file:
+            file.writelines(lines)
+        return
+
+    def advance_to_next_test(self) -> None:
+        test_order = [(1, 1), (2, 1)]
+        current = (self.floor, self.test)
+        if current == test_order[-1]:
+            return
+        self.floor, self.test = test_order[test_order.index(current) + 1]
+        self.update_file()
         return
 
     def delete(self) -> None:

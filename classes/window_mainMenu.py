@@ -27,40 +27,56 @@ class MainMenu(Window):
     def blit_options(self) -> None:
         options = [
             "Tower (T)",
-            "Characters (C)",
             "Workshop (W)",
+            "Characters (C)",
             "Summon (S)",
-            "Pocket (P)",
-            "Floors (F)",
+            "Next Test (N)",
+            "Items (I)",
+            "Profile (P)",
+            "Options (O)",
+            "Log Out (L)",
             "Help (H)",
         ]
         img_path = "assets/light_gray.png"
 
-        for opt in options:
-            start_x = 1 / 26 * self.WIDTH
-            start_y = 1 / 8 * (options.index(opt) + 1.7) * self.HEIGHT - (
-                1 / 10 * self.HEIGHT + self.WIDTH * 0.04
-            )
+        for i in range(len(options)):
+            if i < 6:
+                start_x = 1 / 26 * self.WIDTH
+                text_x = 1 / 15 * self.WIDTH
+            else:
+                start_x = 49 / 78 * self.WIDTH
+                text_x = 79 / 120 * self.WIDTH
+
             width = 1 / 3 * self.WIDTH
             height = 1 / 10 * self.HEIGHT
+            start_y = 1 / 20 * (3 * (i % 6) + 1) * self.HEIGHT
 
-            profile_img = self.load_and_resize_image(img_path, width, height)
-            self.screen.blit(profile_img, (start_x, start_y))
+            img = self.load_and_resize_image(img_path, width, height)
+            self.screen.blit(img, (start_x, start_y))
             self.draw_rect_lines(
-                self.DARK_GRAY, start_x, start_y, start_x + width, start_y + height, 3
+                self.DARK_GRAY,
+                start_x,
+                start_y,
+                start_x + width,
+                start_y + height,
+                3,
             )
 
-            text_surface = self.render_text(opt, int(self.WIDTH * 0.04), self.DARK_GRAY)
+            text_surface = self.render_text(
+                options[i], int(self.WIDTH * 0.04), self.DARK_GRAY
+            )
             self.blit_text(
                 text_surface,
-                1 / 15 * self.WIDTH,
-                1 / 8 * (options.index(opt) + 0.7) * self.HEIGHT,
+                text_x,
+                # 1 / 8 * ((i % 6) + 0.7) * self.HEIGHT,
+                1 / 20 * (3 * (i % 6) + 1.6) * self.HEIGHT,
             )
         return
 
     def init_next_test(self) -> (pygame.Surface, FloorTest):
         floor = self.player.floor
         test = self.player.test
+        test_window = None
 
         if floor == 1:
             if test == 1:
@@ -68,7 +84,8 @@ class MainMenu(Window):
         elif floor == 2:
             if test == 1:
                 test_window = Deathmatch()
-        else:
+
+        if not test_window:
             raise Exception("invalid floor/test number")
 
         text = f"{test_window.floor}, {test_window.name}"
@@ -104,20 +121,28 @@ class MainMenu(Window):
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_t:
+                        print("tower")
+                    if event.key == pygame.K_w:
+                        print("workshop")
+                    if event.key == pygame.K_c:
+                        print("characters")
+                    if event.key == pygame.K_s:
+                        print("summon")
+                    if event.key == pygame.K_n:
                         popup_text, test_window = self.init_next_test()
                         start_level = self.popup_loop(popup_text)
                         if start_level:
-                            test_window.run()
-                    if event.key == pygame.K_c:
-                        print("characters")
-                    if event.key == pygame.K_w:
-                        print("workshop")
-                    if event.key == pygame.K_s:
-                        print("summon")
+                            player_win = test_window.run()
+                            if player_win:
+                                self.player.advance_to_next_test()
+                    if event.key == pygame.K_i:
+                        print("items")
                     if event.key == pygame.K_p:
-                        print("pocket")
-                    if event.key == pygame.K_f:
-                        print("floors")
+                        print("profile")
+                    if event.key == pygame.K_o:
+                        print("options")
+                    if event.key == pygame.K_l:
+                        print("log out")
                     if event.key == pygame.K_h:
                         print("help")
                     if event.key == pygame.K_ESCAPE:

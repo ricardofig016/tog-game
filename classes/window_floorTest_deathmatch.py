@@ -27,7 +27,7 @@ class Deathmatch(FloorTest):
         self.insert_character(5, "b", 0, 3)
 
     def get_random_bg_image(self):
-        dir_path = "assets/deathmatch_test"
+        dir_path = "assets/test_bgs/deathmatch_test"
         images = []
         for filename in os.listdir(dir_path):
             file_path = os.path.join(dir_path, filename)

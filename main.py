@@ -36,14 +36,14 @@ def run() -> None:
     return
 
 
-# p = Player("test_p")
+p = Player("test_p")
+
+main_menu = MainMenu(p)
+main_menu.run()
 #
-# main_menu = MainMenu(p)
-# main_menu.run()
 #
-#
-dm = Ball()
-dm.run()
+# dm = Ball()
+# dm.run()
 #
 # print_all_characters()
 

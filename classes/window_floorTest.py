@@ -501,8 +501,9 @@ class FloorTest(Window):
             self.clock.tick(60)
         return
 
-    def run(self) -> None:
+    def run(self) -> bool:
         running = True
+        player_win = False
         while running:
             if self.turn == "b":
                 time.sleep(self.SLEEP_TIME)
@@ -537,5 +538,7 @@ class FloorTest(Window):
             if self.winner:
                 time.sleep(self.SLEEP_TIME)
                 self.winner_loop()
+                if self.winner == "a":
+                    player_win = True
                 running = False
-        return
+        return player_win
