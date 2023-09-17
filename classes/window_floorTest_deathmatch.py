@@ -19,12 +19,12 @@ class Deathmatch(FloorTest):
         self.populate_grid()
 
     def populate_grid(self):
-        self.grid[0][2].set_element("boulder")
+        self.grid[0][1].set_element("boulder")
+        self.grid[1][2].set_element("boulder")
         self.grid[1][3].set_element("boulder")
-        self.grid[2][3].set_element("boulder")
-        self.insert_character(3, "a", 4, 0)
-        self.insert_character(4, "n", 1, 1)  # change to "n"
-        self.insert_character(5, "b", 0, 3)
+        self.insert_character(3, "a", 4, 0)  # bam
+        self.insert_character(4, "n", 0, 0)  # khun
+        self.insert_character(5, "b", 0, 3)  # rak
 
     def get_random_bg_image(self):
         dir_path = "assets/test_bgs/deathmatch_test"

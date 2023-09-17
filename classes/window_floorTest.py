@@ -34,8 +34,9 @@ class FloorTest(Window):
         self.team_b_selected_preference = None
         self.prompt = prompt
         self.turn = turn
-        caption = f"{self.floor} - {self.name}"
-        super().__init__(caption=caption, bg_image_path=bg_image_path)
+        self.caption = f"{self.floor} - {self.name}"
+        self.bg_image_path = bg_image_path
+        super().__init__(caption=self.caption, bg_image_path=self.bg_image_path)
         self.calc_grid_cell_size()
         self.team_a = []
         self.team_b = []

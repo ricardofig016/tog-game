@@ -1,5 +1,6 @@
 import random
 import os
+from classes.window_tutorial import Tutorial
 from classes.window_floorTest import FloorTest
 
 
@@ -47,4 +48,11 @@ class Ball(FloorTest):
         winner_team = self.check_win()
         if winner_team:
             self.winner = winner_team
+        return
+
+    def run(self):
+        tut_text = "gosto de panquecas, porque sao docinhas."
+        tut = Tutorial(self.bg_image_path, self.caption, tut_text)
+        tut.run()
+        super().run()
         return

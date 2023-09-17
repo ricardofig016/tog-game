@@ -28,6 +28,20 @@ class Window(object):
         image = pygame.image.load(image_path)
         return pygame.transform.scale(image, (width, height))
 
+    def divide_text_in_lines(self, text: str, line_size: int) -> [str]:
+        lines = []
+        words = text.split(" ")
+        curr_line = ""
+        for word in words:
+            if len(curr_line) + len(word) + 1 <= line_size:
+                curr_line += word + " "
+            else:
+                lines.append(curr_line)
+                curr_line = word + " "
+        lines.append(curr_line)
+        print(lines)
+        return lines
+
     def render_text(
         self,
         text: str,
@@ -75,19 +89,9 @@ class Window(object):
         height = 1 / 2 * self.HEIGHT
         pygame.draw.rect(self.screen, self.DARK_GRAY, (x, y, width, height))
 
+        pygame.draw.line(self.screen, self.LIGHT_GRAY, (x, y), (x + width, y), 4)
         pygame.draw.line(
-            self.screen,
-            self.LIGHT_GRAY,
-            (0, 1 / 4 * self.HEIGHT),
-            (self.WIDTH, 1 / 4 * self.HEIGHT),
-            4,
-        )
-        pygame.draw.line(
-            self.screen,
-            self.LIGHT_GRAY,
-            (0, 3 / 4 * self.HEIGHT),
-            (self.WIDTH, 3 / 4 * self.HEIGHT),
-            4,
+            self.screen, self.LIGHT_GRAY, (x, y + height), (x + width, y + height), 4
         )
 
         text = "[click anywhere to continue]"
